@@ -19,6 +19,7 @@ private:
 	wxCheckBox* WxCheckBox1;
 	wxStaticText* WxStaticText1;
 	wxScrollBar* WxScrollBar1;
+	wxChoice* WxChoice1;
 
 	wxBoxSizer* WxBoxSizer2;
 	wxPanel* WxPanel1;
@@ -91,9 +92,17 @@ MyFrame::MyFrame() : wxFrame(NULL, wxID_ANY, "GFK Lab03")
 	BtnColor = new wxButton(this, ID_BTNCOLOR, _("Kolor gwiazki"), wxPoint(419, 140), wxSize(113, 27), 0, wxDefaultValidator);
 	WxBoxSizer2->Add(BtnColor, 0, wxALIGN_CENTER | wxALL, 5);
 
-	WxEdit1 = new wxTextCtrl(this, ID_WXEDIT1, _("WxEdit1"), wxPoint(410, 182), wxSize(131, 20), 0, wxDefaultValidator, _("WxEdit1"));
+	WxEdit1 = new wxTextCtrl(this, ID_WXEDIT1, _("tekst"), wxPoint(410, 182), wxSize(131, 30), 0, wxDefaultValidator, _("WxEdit1"));
 	WxBoxSizer2->Add(WxEdit1, 0, wxALIGN_CENTER | wxALL, 5);
 
+	wxArrayString arrayStringFor_WxChoice1;
+	WxChoice1 = new wxChoice(this, wxID_ANY, wxPoint(447, 21), wxSize(234, 30), arrayStringFor_WxChoice1, 0, wxDefaultValidator, _("WxChoice1"));
+	WxBoxSizer2->Add(WxChoice1, 0, wxALIGN_CENTER | wxALL, 5);
+
+	WxChoice1->Append("gwiazdka");
+	WxChoice1->Append("ksiê¿yc");
+	WxChoice1->Append("s³onko");
+	WxChoice1->SetSelection(0);
 	
 	
 
