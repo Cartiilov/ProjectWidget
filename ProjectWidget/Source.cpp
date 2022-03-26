@@ -20,6 +20,10 @@ private:
 	wxStaticText* WxStaticText1;
 	wxScrollBar* WxScrollBar1;
 
+	wxBoxSizer* WxBoxSizer2;
+	wxPanel* WxPanel1;
+	wxBoxSizer* WxBoxSizer1;
+
 
 
 	void WxButton1_Click(wxCommandEvent& e);
@@ -60,17 +64,41 @@ MyFrame::MyFrame() : wxFrame(NULL, wxID_ANY, "GFK Lab03")
 	SetSize(8, 8, 600, 500);
 	Center();
 
-	Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
+	WxBoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
+	this->SetSizer(WxBoxSizer1);
+	this->SetAutoLayout(true);
+
+	WxPanel1 = new wxPanel(this, wxID_ANY, wxPoint(5, 39), wxSize(213, 47));
+	WxBoxSizer1->Add(WxPanel1, 1, wxEXPAND | wxALL, 5);
+
+	WxBoxSizer2 = new wxBoxSizer(wxVERTICAL);
+	WxBoxSizer1->Add(WxBoxSizer2, 0, wxALIGN_TOP | wxALL, 5);
+
+	
 
 	WxButton1 = new wxButton(this, ID_WXBUTTON1, _("Zapis do pliku"), wxPoint(419, 15), wxSize(113, 27), 0, wxDefaultValidator, _("WxButton1"));
-	WxEdit1 = new wxTextCtrl(this, ID_WXEDIT1, _("WxEdit1"), wxPoint(410, 182), wxSize(131, 20), 0, wxDefaultValidator, _("WxEdit1"));
+	WxBoxSizer2->Add(WxButton1, 0, wxALIGN_CENTER | wxALL, 5);
+
 	WxCheckBox1 = new wxCheckBox(this, ID_WXCHECKBOX1, _("Banan"), wxPoint(450, 57), wxSize(105, 19), 0, wxDefaultValidator, _("WxCheckBox1"));
-	//WxStaticText1 = new wxStaticText(this, wxID_ANY, _("WxStaticText1"), wxPoint(168, 62), wxDefaultSize, 0, _("WxStaticText1"));
+	WxBoxSizer2->Add(WxCheckBox1, 0, wxALIGN_CENTER | wxALL, 5);
+
 	WxScrollBar1 = new wxScrollBar(this, ID_WXSCROLLBAR1, wxPoint(400, 92), wxSize(150, 18), wxSB_HORIZONTAL, wxDefaultValidator, _("WxScrollBar1"));
+	WxBoxSizer2->Add(WxScrollBar1, 0, wxALIGN_CENTER | wxALL, 5);
+
 	WxScrollBar1->SetScrollbar(10, 15, 100, 10);
 	WxScrollBar1->Enable(false);
 
 	BtnColor = new wxButton(this, ID_BTNCOLOR, _("Kolor gwiazki"), wxPoint(419, 140), wxSize(113, 27), 0, wxDefaultValidator);
+	WxBoxSizer2->Add(BtnColor, 0, wxALIGN_CENTER | wxALL, 5);
+
+	WxEdit1 = new wxTextCtrl(this, ID_WXEDIT1, _("WxEdit1"), wxPoint(410, 182), wxSize(131, 20), 0, wxDefaultValidator, _("WxEdit1"));
+	WxBoxSizer2->Add(WxEdit1, 0, wxALIGN_CENTER | wxALL, 5);
+
+	
+	
+
+
+
 
 
 
@@ -78,6 +106,7 @@ MyFrame::MyFrame() : wxFrame(NULL, wxID_ANY, "GFK Lab03")
 	Bind(wxEVT_TEXT, &MyFrame::WxEdit1_Updated, this, ID_WXEDIT1);
 	Bind(wxEVT_CHECKBOX, &MyFrame::WxCheckBox1_Click, this, ID_WXCHECKBOX1);
 	Bind(wxEVT_SCROLL_THUMBTRACK, &MyFrame::WxScrollBar1_Scroll, this, ID_WXSCROLLBAR1);
+	Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
 }
 void MyFrame::OnExit(wxCommandEvent& event)
 {
