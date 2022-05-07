@@ -1,198 +1,188 @@
 #include "GUIMyFrame1.h"
-#include "ConfigClass.h"
-#include "ChartClass.h"
 
 GUIMyFrame1::GUIMyFrame1( wxWindow* parent )
 :
 MyFrame1( parent )
 {
- //https://r12a.github.io/apps/conversion/ -> JavaScript
- m_staticText1->SetLabel(_("Uk\u0142ad \u015Awiata"));
- m_staticText9->SetLabel(_("Obr\u00F3t"));
- m_staticText11->SetLabel(_("Warto\u015Bci na wykresie:"));
- WxScrollBar_alpha->SetScrollbar(0, 1, 360, 1, true);
- WxRB_Middle->SetLabel(_("\u015Arodek ekranu"));
- WxRB_Center->SetLabel(_("\u015Arodek uk\u0142adu"));
- m_button1->SetLabel(_("Do uk\u0142adu \u015Bwiata"));
- cfg = std::make_shared<ConfigClass>(this);
- Ly_min->SetLabel(wxString::Format(wxT("%2.4lf"), ChartClass(cfg).Get_Y_min()));
- Ly_max->SetLabel(wxString::Format(wxT("%2.4lf"), ChartClass(cfg).Get_Y_max()));
+ m_staticText1->SetLabel(_(L"Jasno\u015B\u0107"));
+ m_b_threshold->SetLabel(_(L"Pr\u00F3g 128"));
+ this->SetBackgroundColour(wxColor(192, 192, 192));
+ m_scrolledWindow->SetScrollbars(25, 25, 52, 40);
+ m_scrolledWindow->SetBackgroundColour(wxColor(192, 192, 192));
 }
 
-void GUIMyFrame1::MainFormClose( wxCloseEvent& event )
-{
- Destroy();
-}
-
-void GUIMyFrame1::WxPanel_Repaint( wxUpdateUIEvent& event )
+void GUIMyFrame1::m_scrolledWindow_update( wxUpdateUIEvent& event )
 {
  Repaint();
 }
 
-void GUIMyFrame1::WxEdit_x0_Update( wxCommandEvent& event )
+void GUIMyFrame1::m_b_grayscale_click( wxCommandEvent& event )
 {
-double v;
-if (WxEdit_x0->GetValue().ToDouble(&v))
-{
-cfg->Set_x0(v);
-Repaint();
-}
-else wxBell();
+	Img_Cpy = Img_Org.ConvertToGreyscale();
+	m_scrolledWindow->ClearBackground();
 }
 
-void GUIMyFrame1::WxEdit_y0_Update( wxCommandEvent& event )
+void GUIMyFrame1::m_b_blur_click( wxCommandEvent& event )
 {
-double v;
-if (WxEdit_y0->GetValue().ToDouble(&v))
-{
-cfg->Set_y0(v);
-Repaint();
-}
-else wxBell();
+	Img_Cpy = Img_Org.Blur(5);
+	m_scrolledWindow->ClearBackground();
 }
 
-void GUIMyFrame1::WxEdit_x1_Update( wxCommandEvent& event )
+void GUIMyFrame1::m_b_mirror_click( wxCommandEvent& event )
 {
-double v;
-if (WxEdit_x1->GetValue().ToDouble(&v))
-{
-cfg->Set_x1(v);
-Repaint();
-}
-else wxBell();
+	Img_Cpy = Img_Org.Mirror();
+	m_scrolledWindow->ClearBackground();
 }
 
-void GUIMyFrame1::WxEdit_y1_Update( wxCommandEvent& event )
+void GUIMyFrame1::m_b_replace_click( wxCommandEvent& event )
 {
-double v;
-if (WxEdit_y1->GetValue().ToDouble(&v))
-{
-cfg->Set_y1(v);
-Repaint();
-}
-else wxBell();
+	Img_Cpy = Img_Org;
+	Img_Cpy.Replace(254, 0, 0, 0, 0, 255);
+	m_scrolledWindow->ClearBackground();
 }
 
-void GUIMyFrame1::WxScrollBar_alpha_Update( wxScrollEvent& event )
+void GUIMyFrame1::m_b_rescale_click( wxCommandEvent& event )
 {
-WxStaticText_alpha->SetLabel(wxString::Format(wxT("%d"), WxScrollBar_alpha->GetThumbPosition()));
-cfg->Set_Alpha(WxScrollBar_alpha->GetThumbPosition());
-Repaint();
+	Img_Cpy = Img_Org;
+	Img_Cpy.Rescale(320, 240);
+	m_scrolledWindow->ClearBackground();
+ // TO DO: Zmiana rozmiarow do 320x240
 }
 
-void GUIMyFrame1::WxRB_Middle_Click( wxCommandEvent& event )
+void GUIMyFrame1::m_b_rotate_click( wxCommandEvent& event )
 {
-cfg->SetRotateScreen(true);
-Repaint();
+	Img_Cpy = Img_Org.Rotate(M_PI/6, wxPoint(Img_Org.GetSize().x, Img_Org.GetSize().y));
+	m_scrolledWindow->ClearBackground();
+ // TO DO: Obrot o 30 stopni
 }
 
-void GUIMyFrame1::WxRB_Center_Click( wxCommandEvent& event )
+void GUIMyFrame1::m_b_rotate_hue_click( wxCommandEvent& event )
 {
-cfg->SetRotateScreen(false);
-Repaint();
+	Img_Cpy = Img_Org;
+	Img_Cpy.RotateHue(0.5);
+	m_scrolledWindow->ClearBackground();
+ // TO DO: Przesuniecie Hue o 180 stopni
 }
 
-void GUIMyFrame1::WxEdit_dX_Update( wxCommandEvent& event )
+void GUIMyFrame1::m_b_mask_click( wxCommandEvent& event )
 {
-double v;
-if (WxEdit_dX->GetValue().ToDouble(&v))
-{
-cfg->Set_dX(v);
-Repaint();
-}
-else wxBell();
+	Img_Cpy = Img_Org;
+	Img_Cpy.SetMaskFromImage(Img_Mask, 0, 0, 0);
+	m_scrolledWindow->ClearBackground();
 }
 
-void GUIMyFrame1::WxEdit_dY_Update( wxCommandEvent& event )
+void GUIMyFrame1::m_s_brightness_scroll( wxScrollEvent& event )
 {
-double v;
-if (WxEdit_dY->GetValue().ToDouble(&v))
-{
-cfg->Set_dY(v);
-Repaint();
-}
-else wxBell();
-}
-
-void GUIMyFrame1::WxEdit_x_start_Update( wxCommandEvent& event )
-{
-double v;
-if (WxEdit_x_start->GetValue().ToDouble(&v))
-{
-cfg->Set_x_start(v);
-Ly_min->SetLabel(wxString::Format(wxT("%2.4lf"), ChartClass(cfg).Get_Y_min()));
-Ly_max->SetLabel(wxString::Format(wxT("%2.4lf"), ChartClass(cfg).Get_Y_max()));
-Layout();
-Repaint();
-}
-else wxBell();
-}
-
-void GUIMyFrame1::WxEdit_x_stop_Update( wxCommandEvent& event )
-{
-double v;
-if (WxEdit_x_stop->GetValue().ToDouble(&v))
-{
-cfg->Set_x_stop(v);
-Ly_min->SetLabel(wxString::Format(wxT("%2.4lf"), ChartClass(cfg).Get_Y_min()));
-Ly_max->SetLabel(wxString::Format(wxT("%2.4lf"), ChartClass(cfg).Get_Y_max()));
-Layout();
-Repaint();
-}
-else wxBell();
-}
-
-void GUIMyFrame1::WxChoice_Selected( wxCommandEvent& event )
-{
- cfg->Set_F_type(WxChoice->GetSelection());
-}
-
-void GUIMyFrame1::m_button1_click( wxCommandEvent& event )
-{
-WxEdit_x0->SetValue(WxEdit_x_start->GetValue());
-WxEdit_x1->SetValue(WxEdit_x_stop->GetValue());
+// Tutaj, w reakcji na zmiane polozenia suwaka, wywolywana jest funkcja
+// Brightness(...), ktora zmienia jasnosc. W tym miejscu nic nie
+// zmieniamy. Do uzupelnienia pozostaje funkcja Brightness(...)
+Brightness(m_s_brightness->GetValue() - 100);
 Repaint();
 }
 
-void GUIMyFrame1::m_button2_click( wxCommandEvent& event )
+void GUIMyFrame1::m_s_contrast_scroll( wxScrollEvent& event )
 {
-wxFileDialog WxOpenFileDialog(this, _("Choose a file"), _(""), _(""), _("config files (*.cfg)|*.cfg"), wxFD_OPEN);
-if (WxOpenFileDialog.ShowModal() == wxID_OK) cfg->Load((const_cast<char*>((const char*)WxOpenFileDialog.GetPath().mb_str())));
+// Tutaj, w reakcji na zmiane polozenia suwaka, wywolywana jest funkcja
+// Contrast(...), ktora zmienia kontrast. W tym miejscu nic nie
+// zmieniamy. Do uzupelnienia pozostaje funkcja Contrast(...)
+Contrast(m_s_contrast->GetValue() - 100);
+Repaint();
 }
 
-void GUIMyFrame1::m_button3_click( wxCommandEvent& event )
+void GUIMyFrame1::m_b_prewitt_click( wxCommandEvent& event )
 {
-wxFileDialog WxSaveFileDialog(this, _("Choose a file"), _(""), _(""), _("config files (*.cfg)|*.cfg"), wxFD_SAVE);
-if (WxSaveFileDialog.ShowModal() == wxID_OK) cfg->Save((const_cast<char*>((const char*)WxSaveFileDialog.GetPath().mb_str())));
+	Img_Cpy = Img_Org.Copy();
+
+	int temp = 0;
+	int width = Img_Cpy.GetSize().x;
+	int height = Img_Cpy.GetSize().y;
+	int data = width * height * 3;
+
+	unsigned char* point = Img_Cpy.GetData();
+	unsigned char* back = new unsigned char[data];
+
+	for (int i = 0; i < data; i++)
+		back[i] = point[i];
+	for (int i = 1; i < height - 1; i++)
+	{
+		for (int j = 1; j < width - 1; j++)
+		{
+			for (int k = 0; k < 3; k++)
+			{
+				temp = 0;
+				temp += back[k + i * 3 * width + 3 * (j + 1)];
+				temp -= back[k + i * 3 * width + 3 * (j - 1)];
+				temp += back[k + (i + 1) * 3 * width + 3 * (j + 1)];
+				temp -= back[k + (i + 1) * 3 * width + 3 * (j - 1)];
+				temp += back[k + (i - 1) * 3 * width + 3 * (j + 1)];
+				temp -= back[k + (i - 1) * 3 * width + 3 * (j - 1)];
+				point[k + i * 3 * width + 3 * j] = fabs(temp) / 3.0;
+			}
+		}
+	}
+
+	delete[] back;
+}
+
+void GUIMyFrame1::m_b_threshold_click( wxCommandEvent& event )
+{
+	Img_Cpy = Img_Org.Copy();
+	unsigned char* point = Img_Cpy.GetData();
+	for (int i = 0; i < Img_Cpy.GetSize().x * Img_Cpy.GetSize().y * 3; i++)
+	{
+		if (point[i] < 128)
+			point[i] = 0;
+		else
+			point[i] = 255;
+	}
 }
 
 
-GUIMyFrame1::~GUIMyFrame1()
+void GUIMyFrame1::Contrast(int value)
 {
+	double c = (100.0 + static_cast<double>(value)) / (101.0 - static_cast<double>(value));
+	double temp;
+
+	Img_Cpy = Img_Org.Copy();
+	unsigned char* point = Img_Cpy.GetData();
+	int data = Img_Cpy.GetSize().x * Img_Cpy.GetSize().y * 3;
+
+	for (int i = 0; i < data; i++)
+	{
+		temp = c * (point[i] - 127) + 127;
+
+		if (temp > 255)
+			point[i] = 255;
+		else if (temp < 0)
+			point[i] = 0;
+		else
+			point[i] = static_cast<char>(temp);
+	}
 
 }
 
 void GUIMyFrame1::Repaint()
 {
- wxClientDC dc1(WxPanel);
- wxBufferedDC dc(&dc1);
-
- ChartClass MyChart(cfg);
- int w, h;
- WxPanel->GetSize(&w, &h);
- MyChart.Draw(&dc, w, h);
+ wxBitmap bitmap(Img_Cpy);          // Tworzymy tymczasowa bitmape na podstawie Img_Cpy
+ wxClientDC dc(m_scrolledWindow);   // Pobieramy kontekst okna
+ m_scrolledWindow->DoPrepareDC(dc); // Musimy wywolac w przypadku wxScrolledWindow, zeby suwaki prawidlowo dzialaly
+ dc.DrawBitmap(bitmap, 0, 0, true); // Rysujemy bitmape na kontekscie urzadzenia
 }
 
-void GUIMyFrame1::UpdateControls()
+void GUIMyFrame1::Brightness(int value)
 {
- WxEdit_x0->SetLabel(wxString::Format(wxT("%2.1lf"), cfg->Get_x0()));
- WxEdit_x1->SetLabel(wxString::Format(wxT("%2.1lf"), cfg->Get_x1()));
- WxEdit_y0->SetLabel(wxString::Format(wxT("%2.1lf"), cfg->Get_y0()));
- WxEdit_y1->SetLabel(wxString::Format(wxT("%2.1lf"), cfg->Get_y1()));
- WxEdit_dX->SetLabel(wxString::Format(wxT("%2.1lf"), cfg->Get_dX()));
- WxEdit_dY->SetLabel(wxString::Format(wxT("%2.1lf"), cfg->Get_dY()));
- WxEdit_x_start->SetLabel(wxString::Format(wxT("%2.1lf"), cfg->Get_x_start()));
- WxEdit_x_stop->SetLabel(wxString::Format(wxT("%2.1lf"), cfg->Get_x_stop()));
- WxScrollBar_alpha->SetThumbPosition(int(cfg->Get_Alpha()));
- WxStaticText_alpha->SetLabel(wxString::Format(wxT("%d"), WxScrollBar_alpha->GetThumbPosition()));
+ // TO DO: Zmiana jasnosci obrazu. value moze przyjmowac wartosci od -100 do 100
+	Img_Cpy = Img_Org.Copy();
+	unsigned char* point = Img_Cpy.GetData();
+	int data = Img_Cpy.GetSize().x * Img_Cpy.GetSize().y * 3;
+	int temp;
+	for (int i = 1; i < data; i++)
+	{
+		temp = point[i] + value;
+		if (temp > 255)
+			temp = 255;
+		else if (temp < 0)
+			temp = 0;
+		point[i] = temp;
+	}
 }

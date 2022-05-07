@@ -18,6 +18,15 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GUI.h" />
+    <ClInclude Include="GUIMyFrame1.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="GUIMyFrame1.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -144,20 +153,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="ChartClass.cpp" />
-    <ClCompile Include="ConfigClass.cpp" />
-    <ClCompile Include="GUI.cpp" />
-    <ClCompile Include="GUIMyFrame1.cpp" />
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ChartClass.h" />
-    <ClInclude Include="ConfigClass.h" />
-    <ClInclude Include="GUI.h" />
-    <ClInclude Include="GUIMyFrame1.h" />
-    <ClInclude Include="vecmat.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
