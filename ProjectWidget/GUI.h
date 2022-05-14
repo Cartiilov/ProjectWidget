@@ -7,20 +7,24 @@
 
 #ifndef __GUI_H__
 #define __GUI_H__
+//#include <wx/wx.h>
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/intl.h>
-#include <wx/scrolwin.h>
+#include <wx/panel.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
 #include <wx/string.h>
-#include <wx/button.h>
+#include <wx/checkbox.h>
+#include <wx/radiobut.h>
 #include <wx/sizer.h>
-#include <wx/stattext.h>
+#include <wx/statbox.h>
+#include <wx/tglbtn.h>
 #include <wx/slider.h>
+#include <wx/stattext.h>
 #include <wx/frame.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -34,41 +38,36 @@ class MyFrame1 : public wxFrame
 	private:
 	
 	protected:
-		wxScrolledWindow* m_scrolledWindow;
-		wxButton* m_b_grayscale;
-		wxButton* m_b_blur;
-		wxButton* m_b_mirror;
-		wxButton* m_b_replace;
-		wxButton* m_b_rescale;
-		wxButton* m_b_rotate;
-		wxButton* m_b_rotate_hue;
-		wxButton* m_b_mask;
-		wxSlider* m_s_brightness;
-		wxStaticText* m_staticText2;
-		wxSlider* m_s_contrast;
-		wxButton* m_b_prewitt;
+		wxPanel* m_panel1;
+		wxCheckBox* m_cb_Kontur;
+		wxCheckBox* m_cb_Mapa;
+		wxRadioButton* m_rb_NC;
+		wxRadioButton* m_rb_NZC;
+		wxRadioButton* m_rb_Na_szaro;
+		wxToggleButton* m_tb_function_1;
+		wxToggleButton* m_tb_function_2;
+		wxToggleButton* m_tb_function_3;
+		wxToggleButton* m_tb_function_4;
+		wxSlider* m_s_ile_poziomic;
+		wxStaticText* m_st_liczba_poziomic;
+		wxToggleButton* m_tb_pokaz_punkty;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void m_scrolledWindow_update( wxUpdateUIEvent& event ) { event.Skip(); }
-		virtual void m_b_grayscale_click( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_b_blur_click( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_b_mirror_click( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_b_replace_click( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_b_rescale_click( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_b_rotate_click( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_b_rotate_hue_click( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_b_mask_click( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_s_brightness_scroll( wxScrollEvent& event ) { event.Skip(); }
-		virtual void m_s_contrast_scroll( wxScrollEvent& event ) { event.Skip(); }
-		virtual void m_b_prewitt_click( wxCommandEvent& event ) { event.Skip(); }
-		virtual void m_b_threshold_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void UpdateUI( wxUpdateUIEvent& event ) { event.Skip(); }
+		virtual void m_cb_Kontur_Click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_cb_Mapa_Click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_tb_function_1_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_tb_function_2_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_tb_function_3_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_tb_function_4_click( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_s_ile_poziomic_scroll( wxScrollEvent& event ) { event.Skip(); }
+		virtual void m_tb_pokaz_punkty_toggle( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
-		wxStaticText* m_staticText1;
-		wxButton* m_b_threshold;
+		wxStaticBoxSizer* sbSizer2;
 		
-		MyFrame1( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("GFK Lab 06"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,400 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		MyFrame1( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("GFK Lab 07"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 520,650 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~MyFrame1();
 	

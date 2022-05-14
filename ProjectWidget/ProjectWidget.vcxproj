@@ -23,6 +23,7 @@
     <ClInclude Include="GUIMyFrame1.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="draw_map.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="GUIMyFrame1.cpp" />
     <ClCompile Include="main.cpp" />
